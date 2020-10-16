@@ -13,6 +13,8 @@ var _morgan = _interopRequireDefault(require("morgan"));
 
 var _api = _interopRequireDefault(require("./routes/api.routes"));
 
+var _auth = _interopRequireDefault(require("./routes/auth.routes"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -22,5 +24,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var app = (0, _express["default"])();
 app.use((0, _morgan["default"])('dev'));
 app.use('/api', _api["default"]);
+app.use('/auth', _auth["default"]);
 var _default = app;
 exports["default"] = _default;

@@ -7,9 +7,11 @@ exports["default"] = void 0;
 
 var _express = require("express");
 
+var _AlarmaController = _interopRequireDefault(require("../controllers/AlarmaController"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 var router = (0, _express.Router)();
-router.get('/', function (req, res) {
-  return "Bienvenidos";
-});
+router.get('/', _AlarmaController["default"].get_status);
 var _default = router;
 exports["default"] = _default;
