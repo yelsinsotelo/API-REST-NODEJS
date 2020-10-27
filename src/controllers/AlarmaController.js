@@ -73,10 +73,27 @@ class AlarmaController {
 
     }
     static Edit(req, res) {
-
+       
+        
     }
     static Update(req, res) {
-
+        solicitud = JSON.parse(req.body);
+        Equipment.findById(solicitud.id_MCU).exec().then(
+            result => {console.log(result);
+                res.status(200).json({
+                    success: true,
+                    data:"completo",
+                 } )
+            }
+        ).catch(
+            error => {
+                console.log(error);
+                res.status(500).json({
+                    success:false,
+                    data: error
+                })
+            }
+        );
     }
     static Destroy(req, res) {
 
