@@ -7,4 +7,7 @@ router.post('/addAlarm',AlarmaController.Store);
 router.post('/getAlarms',AlarmaController.Index)
 router.post('/addUser',UserController.Store);
 router.post('/getUsers', UserController.Index);
+router.post('/updateEquipment', (req,res,next) => {
+    console.log(req.body)
+})
 export default router;
