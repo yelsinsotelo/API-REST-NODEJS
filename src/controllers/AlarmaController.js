@@ -37,7 +37,7 @@ class AlarmaController {
         });
         QRlogo.generateQRWithLogo(data, BASEDIR + 'recorteu.png', {}, "PNG", BASEDIR2 + equipment_id + '.png').then(result =>
             console.log("completo")).catch(e => console.log(e));
-        const urlcode = 'http://localhost:4080/QrCode/' + equipment_id + '.png';
+        const urlcode = 'http://34.121.135.157:8080/QrCode/' + equipment_id + '.png';
         const newAlarma = new Equipment({
             ip: equipment_ip,
             id_MCU: equipment_id,
