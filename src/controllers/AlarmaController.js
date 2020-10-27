@@ -82,6 +82,8 @@ class AlarmaController {
             result => {
                 result.latCenter = solicitud.latitude;
                 result.lngCenter= solicitud.longitude;
+                result.state = "conectado";
+                result.save();
                 console.log(result)
                 res.status(200).json({
                     success: true,
