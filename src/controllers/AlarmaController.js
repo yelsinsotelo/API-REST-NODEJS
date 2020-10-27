@@ -79,7 +79,10 @@ class AlarmaController {
     static Update(req, res) {
         const solicitud = JSON.parse(JSON.stringify(req.body));
         Equipment.findOne({id_MCU:solicitud.id_MCU}).exec().then(
-            result => {console.log(result);
+            result => {
+                result.latCenter = solicitud.latitude;
+                result.lngCenter= solicitud.longitude;
+                console.log(result)
                 res.status(200).json({
                     success: true,
                     data:"completo",
