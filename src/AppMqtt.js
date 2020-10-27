@@ -5,7 +5,7 @@ import path from 'path';
 //var CERT = fs.readFileSync(path.join(__dirname, '/tls-cert.pem'))
 const TRUSTED_CA_LIST = fs.readFileSync(path.join(__dirname, '/ca.crt'))
 
-const PORT = 8883
+const PORT = 1883
 const HOST = "34.121.135.157"
 
 const options = {
@@ -13,10 +13,10 @@ const options = {
   port: PORT,
   //key: KEY,
   //cert: CERT,
-  rejectUnauthorized: false,
+  rejectUnauthorized: true,
   // The CA list will be used to determine if server is authorized
   ca: TRUSTED_CA_LIST,
-  protocol: 'tls'
+  protocol: 'mqtt'
 }
 const client = mqtt.connect(options);
 export default client
