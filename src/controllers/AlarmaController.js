@@ -77,7 +77,7 @@ class AlarmaController {
         
     }
     static Update(req, res) {
-        solicitud = JSON.parse(req.body);
+        solicitud = JSON.parse(JSON.stringify(req.body));
         Equipment.findById(solicitud.id_MCU).exec().then(
             result => {console.log(result);
                 res.status(200).json({
