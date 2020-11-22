@@ -14,13 +14,14 @@ const io = socketIo(server);
 console.log("Server lisen port ", 4080);
 
 appmqtt.on('connect', function () {
-    console.log("Se logró conectar exitosmaente");
+    console.log("Comunicación Mqtt Establecida Correctamente");
 })
 
 appmqtt.subscribe('Panel/#');
 io.on("connection", (socket) => {
-    //appmqtt.publish('Panel/PwAXABJRODQ4OTQx/BUTTON','{"ip":"wKgBUQ","id":"443831", "bp":"0"}');
+   // appmqtt.publish('Panel/PwAXABJRODQ4OTQx/BUTTON','{"ip":"wKgBUQ","id":"443831", "bp":"0"}');
     appmqtt.on('message', function (topic, message) {
+        console.log(message.toString())
         const url = topic.toString();
         const id = url.substring(6, 22);
         const opcode = url.substring(23, url.length);

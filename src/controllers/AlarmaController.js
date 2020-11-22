@@ -45,7 +45,7 @@ class AlarmaController {
             numEquipment: equipment_num,
             urlqr: urlcode,
         });
-      
+
 
         newAlarma.save().then(result => {
             Equipment.find().exec()
@@ -73,35 +73,83 @@ class AlarmaController {
 
     }
     static Edit(req, res) {
-       
-        
+        Equipment.findById(req.params.id).exec().then(result => {
+            result.ip = req.body.equipment_ip,
+                result.id_MCU = req.body.equipment_id,
+                result.name = req.body.equipment_name,
+                result.numEquipment = req.body.equipment_num,
+                result.save().then(result => {
+                    res.json({
+                        success: true,
+                        data: {
+                            message:'success',
+                            code: result,
+                        }
+                    })
+                })
+                .catch(error => {
+                    res.json({
+                        success: false,
+                        data: {
+                            message:'error',
+                            code: error,
+                        }
+                    })
+                    })
+        }).catch(error => {
+            res.json({
+                success: false,
+                data: {
+                    message:'error',
+                    code: error,
+                }
+            })
+        })
+
     }
     static Update(req, res) {
         const solicitud = JSON.parse(JSON.stringify(req.body));
-        Equipment.findOne({id_MCU:solicitud.id_MCU}).exec().then(
+        Equipment.findOne({ id_MCU: solicitud.id_MCU }).exec().then(
             result => {
                 result.latCenter = solicitud.latitude;
-                result.lngCenter= solicitud.longitude;
+                result.lngCenter = solicitud.longitude;
                 result.state = "conectado";
                 result.save();
                 console.log(result)
                 res.status(200).json({
                     success: true,
-                    data:"completo",
-                 } )
+                    data: "completo",
+                })
             }
         ).catch(
             error => {
                 console.log(error);
                 res.status(500).json({
-                    success:false,
+                    success: false,
                     data: error
                 })
             }
         );
     }
     static Destroy(req, res) {
-
+        Equipment.findByIdAndDelete(req.params.id).exec().then(result => {
+            res.json({
+                success: true,
+                data: {
+                    message : 'success',
+                    code: result
+                }
+            })
+        })
+        .catch(error => {
+            res.json({
+                success: false,
+                data: {
+                    message : 'error',
+                    code: error
+                }
+            })
+        })
     }
 
 }

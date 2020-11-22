@@ -32,7 +32,10 @@ class UsersController {
                 .then(result => {
                     res.json({
                         success: true,
-                        data: result,
+                        data: {
+                            items: result,
+                            message: 'success'
+                        },
                     })
                 });
 
@@ -40,22 +43,89 @@ class UsersController {
 
         )
             .catch(e => (
-                res.json({
-                    success: false,
-                    error: e,
-                })
+                Users.find().exec()
+                    .then(result => {
+                        res.json({
+                            success: false,
+                            data: {
+                                items: result,
+                                message: 'error'
+                            },
+                            error: e,
+                        })
+                    })
+
             ));
 
 
     }
     static Edit(req, res) {
 
+
     }
     static Update(req, res) {
+        Users.findById(req.params.id).exec()
+            .then(result => {
+                result.name = req.body.user_name;
+                result.address = req.body.user_address;
+                result.cellphone = req.body.user_cellphone;
+                result.idControl = req.body.user_control_id;
+                result.idEquipment = req.body.equipment;
+                result.save().then(
+                    result => {
+                        res.json({
+                            success: true,
+                            data: {
+                                message: 'success',
+                                code: result
+                            }
+                        })
+                    }
+                )
+                    .catch(error => {
+                        res.json({
+                            success: false,
+                            data: {
+                                message: 'error',
+                                code: error,
+                            }
+                        })
+                    })
 
+            })
+            .catch(
+                error => {
+                    res.json({
+                        success: false,
+                        data: {
+                            message: 'error',
+                            code: error,
+                        }
+                    })
+                }
+            )
     }
     static Destroy(req, res) {
-
+        Users.findByIdAndDelete(req.params.id).exec()
+            .then(result => {
+                res.json({
+                    success: true,
+                    data: {
+                        message: 'success',
+                        code: result
+                    }
+                })
+            }
+            )
+            .catch(error => {
+                res.json({
+                    success: false,
+                    data: {
+                        message: 'error',
+                        code: error,
+                    }
+                })
+            });
     }
 
 }

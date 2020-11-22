@@ -4,9 +4,9 @@ const { Schema, model } = mongosse;
 const UserSchema = new Schema({
     name:{type : String, required:true},
     address : {type : String, required:true},
-    cellphone: {type : String, required:true},
-    idControl: {type: String, unique:true},
-    idEquipment: {type:String, unique:true},
+    cellphone: {type : String, unique:true, required:true},
+    idControl: {type: String, unique: true},
+    idEquipment: {type:String, required:true},
 
 },{timestamps:true,versionKey:false})
 
