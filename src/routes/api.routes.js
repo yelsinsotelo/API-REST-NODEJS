@@ -2,6 +2,7 @@ import { Router } from 'express';
 import AlarmaController from '../controllers/AlarmaController';
 import UserController from '../controllers/UserController';
 import GroupController from '../controllers/GroupController';
+import EmergencyController from '../controllers/EmergencyController';
 const router = Router();
 
 router.post('/addAlarm',AlarmaController.Store);
@@ -22,4 +23,9 @@ router.post('/editGroup/:id', GroupController.Edit);
 router.post('/deleteGroup/:id' , GroupController.Destroy);
 router.post('/updataGroup/:id', GroupController.Update);
 
+router.post('/addEmergency',EmergencyController.Store);
+router.post('/getEmergency', EmergencyController.Index);
+router.post('/editEmergency/:id', EmergencyController.Edit);
+router.post('/deleteEmergency/:id' , EmergencyController.Destroy);
+router.post('/updataEmergency/:id', EmergencyController.Update);
 export default router;

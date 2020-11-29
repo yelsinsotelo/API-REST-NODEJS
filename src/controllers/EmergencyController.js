@@ -1,7 +1,7 @@
 import Emergency from '../models/Emergency';
 
 class EmergencyController {
-    static index(req, res) {
+    static Index(req, res) {
         Emergency.find().exec()
             .then(result => {
                 res.status(200).json({
@@ -21,10 +21,11 @@ class EmergencyController {
                 })
             })
     }
-    static store(req, res) {
+    static Store(req, res) {
         const emergency = new Emergency({
             lat: req.body.lat,
             lng: req.body.lng,
+            from: req.body.from,
         })
 
         emergency.save().then(result => {
@@ -46,13 +47,15 @@ class EmergencyController {
                 })
             })
     }
-    static edit(req, res) {
+    static Edit(req, res) {
 
     }
-    static update(req, res) {
+    static Update(req, res) {
 
     }
-    static destroy(req, res) {
+    static Destroy(req, res) {
 
     }
 }
+
+export default EmergencyController;

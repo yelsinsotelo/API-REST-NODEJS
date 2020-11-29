@@ -111,6 +111,7 @@ class AlarmaController {
         const solicitud = JSON.parse(JSON.stringify(req.body));
         Equipment.findOne({ id_MCU: solicitud.id_MCU }).exec().then(
             result => {
+                result.name = solicitud.name;
                 result.latCenter = solicitud.latitude;
                 result.lngCenter = solicitud.longitude;
                 result.state = "conectado";

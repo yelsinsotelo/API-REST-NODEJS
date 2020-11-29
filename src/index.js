@@ -71,25 +71,26 @@ io.on("connection", (socket) => {
                                     }
                                     
                                     if(data.bp==4){
-                                        appmqtt.publish('Panel/PwAXABJRODQ4OTQx/AUDIO', '{"tmo":0}');
-                                        appmqtt.publish('Panel/PwAXABJRODQ4OTQx/PGM3', 0);
-                                        appmqtt.publish('Panel/PwAXABJRODQ4OTQx/PGM2', '0'); 
+                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"tmo":0}');
+                                        appmqtt.publish(`Panel/${id}/PGM3`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '0'); 
                                     }else{
                                         socket.emit("FromAPI", responsex);
-                                        appmqtt.publish('Panel/PwAXABJRODQ4OTQx/AUDIO', '{"fn":"tono2.wav","lp":"1"}');
-                                        appmqtt.publish('Panel/PwAXABJRODQ4OTQx/PGM3', '0');
-                                        appmqtt.publish('Panel/PwAXABJRODQ4OTQx/PGM2', '1');
+                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"fn":"tono2.wav","lp":"1"}');
+                                        appmqtt.publish(`Panel/${id}/PGM3`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '1');
                                     }
                                     const emergency = new Emergency({
                                         lat: result.latCenter.toString(),
                                         lng: result.lngCenter.toString(),
+                                        from: 'Control RF',
                                     })
                                     
                                    emergency.save().then(
                                         result =>{ 
-                                            console.log("se guardo correctamente")
+                                            console.log(result)
                                         }
-                                    ).catch(error => {console.log("se guardo correctamente")})
+                                    ).catch(error => {console.log(error)})
                                 }
                             ).catch(
                                 e => console.log("erro2")
