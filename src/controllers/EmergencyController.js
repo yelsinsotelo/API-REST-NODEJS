@@ -2,7 +2,7 @@ import Emergency from '../models/Emergency';
 
 class EmergencyController {
     static Index(req, res) {
-        Emergency.find().exec()
+        Emergency.find().sort({'_id': -1}).exec()
             .then(result => {
                 res.status(200).json({
                     success: true,

@@ -19,7 +19,7 @@ appmqtt.on('connect', function () {
 
 appmqtt.subscribe('Panel/#');
 io.on("connection", (socket) => {
-   // appmqtt.publish('Panel/PwAXABJRODQ4OTQx/BUTTON','{"ip":"wKgBUQ","id":"443831", "bp":"0"}');
+    // appmqtt.publish('Panel/PwAXABJRODQ4OTQx/BUTTON','{"ip":"wKgBUQ","id":"443831", "bp":"0"}');
     appmqtt.on('message', function (topic, message) {
         console.log(message.toString())
         const url = topic.toString();
@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
                     result => {
                         let responsex = [];
                         if (data.id == result.idControl) {
-                            Equipment.findOne({id_MCU:id}).exec().then(
+                            Equipment.findOne({ id_MCU: id }).exec().then(
                                 result => {
                                     responsex = {
                                         success: true,
@@ -69,39 +69,51 @@ io.on("connection", (socket) => {
                                         lat: result.latCenter,
                                         lng: result.lngCenter,
                                     }
-                                    
-                                    if(data.bp==4){
-                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"tmo":0}');
+
+                                    if (data.bp == 8) {
+                                        appmqtt.publish(`Panel/${id}/PGM1`, '0');
                                         appmqtt.publish(`Panel/${id}/PGM3`, '0');
-                                        appmqtt.publish(`Panel/${id}/PGM2`, '0'); 
-                                    }else{
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '1'); 
+                                    } else if(data.bp == 1){
                                         socket.emit("FromAPI", responsex);
-                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"fn":"tono2.wav","lp":"1"}');
+                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"fn":"tono2.wav"}');
                                         appmqtt.publish(`Panel/${id}/PGM3`, '0');
-                                        appmqtt.publish(`Panel/${id}/PGM2`, '1');
-                                    }
-                                    const emergency = new Emergency({
-                                        lat: result.latCenter.toString(),
-                                        lng: result.lngCenter.toString(),
-                                        from: 'Control RF',
-                                    })
-                                    
-                                   emergency.save().then(
-                                        result =>{ 
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM1`, '1');
+                                        const emergency = new Emergency({
+                                            lat: result.latCenter != null ? result.latCenter.toString() : 'null',
+                                            lng: result.lngCenter != null ? result.lngCenter.toString() : 'null',
+                                            from: 'Control RF',
+                                            state: 'Pendiente',
+                                        })
+                                        emergency.save().then(result => {
                                             console.log(result)
                                         }
-                                    ).catch(error => {console.log(error)})
+                                        ).catch(error => { console.log(error) })
+                                    }else if(data.bp == 2){
+                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"fn":"tono3.wav"}');
+                                        appmqtt.publish(`Panel/${id}/PGM3`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM1`, '1');
+                                    }else if(data.bp == 4){
+                                        appmqtt.publish(`Panel/${id}/AUDIO`, '{"tmo":0}');
+                                        appmqtt.publish(`Panel/${id}/PGM3`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '0');
+                                        appmqtt.publish(`Panel/${id}/PGM1`, '0');
+                                    }
+                                    
+                                   
                                 }
                             ).catch(
                                 e => console.log("erro2")
-                            )                            
+                            )
                         } else {
                             responsex = {
                                 success: false,
                                 emergency: false,
                             }
                         }
-                        
+
 
                     }
                 ).catch(
@@ -129,3 +141,4 @@ io.on("connection", (socket) => {
 
 });
 
+export default io;

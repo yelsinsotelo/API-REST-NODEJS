@@ -7,6 +7,8 @@ const UserSchema = new Schema({
     cellphone: {type : String, unique:true, required:true},
     idControl: {type: String, unique: true},
     idEquipment: {type:String, required:true},
+    email: {type:String , required:true , unique:true},
+    password: {type: String, required: true, unique:true},
 
 },{timestamps:true,versionKey:false})
 
