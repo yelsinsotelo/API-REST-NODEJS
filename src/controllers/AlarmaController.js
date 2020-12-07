@@ -2,7 +2,7 @@
 import Equipment from '../models/Equipment';
 import QRlogo from 'qr-with-logo';
 import path from 'path';
-
+import {BASEURL} from '../config/constants'
 const BASEDIR = path.join(__dirname, '../images/');
 const BASEDIR3 = path.join(__dirname, '../images/team/');
 const BASEDIR2 = path.join(__dirname, '../images/QrCode/');
@@ -37,7 +37,7 @@ class AlarmaController {
         });
         QRlogo.generateQRWithLogo(data, BASEDIR + 'recorteu.png', {}, "PNG", BASEDIR2 + equipment_id + '.png').then(result =>
             console.log("completo")).catch(e => console.log(e));
-        const urlcode = 'http://34.121.135.157:8080/QrCode/' + equipment_id + '.png';
+        const urlcode = `${BASEURL}/QrCode/` + equipment_id + '.png';
         const newAlarma = new Equipment({
             ip: equipment_ip,
             id_MCU: equipment_id,
