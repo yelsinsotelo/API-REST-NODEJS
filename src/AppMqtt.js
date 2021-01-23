@@ -6,7 +6,7 @@ import path from 'path';
 const TRUSTED_CA_LIST = fs.readFileSync(path.join(__dirname, '/ca.crt'))
 
 const PORT = 1883
-const HOST = "34.121.135.157"
+const HOST = "192.168.0.2"
 
 const options = {
   host: HOST,

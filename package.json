@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "start": "node src/index.js",
+    "build": "babel src --out-dir dist --source-maps inline --copy-files",
+    "start": "nodemon dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node"
   },
   "dependencies": {

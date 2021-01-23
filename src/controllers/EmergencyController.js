@@ -1,4 +1,4 @@
-import Emergency from '../models/Emergency';
+import Emergency from '../models/migrations/Emergency';
 
 class EmergencyController {
     static Index(req, res) {

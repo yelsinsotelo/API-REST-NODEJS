@@ -8,7 +8,7 @@ const UserSchema = new Schema({
     idControl: {type: String, unique: true},
     idEquipment: {type:String, required:true},
     email: {type:String , required:true , unique:true},
-    password: {type: String, required: true, unique:true},
+    password: {type: String, default:'AlarmaComunitaria2020',unique:false,sparse:true},
 
 },{timestamps:true,versionKey:false})
 

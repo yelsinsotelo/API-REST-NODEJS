@@ -3,7 +3,8 @@ import AlarmaController from '../controllers/AlarmaController';
 import UserController from '../controllers/UserController';
 import GroupController from '../controllers/GroupController';
 import EmergencyController from '../controllers/EmergencyController';
-import FunctionController from '../controllers/FunctionController'
+import FunctionController from '../controllers/FunctionController';
+import AuthController from '../controllers/AuthController'
 const router = Router();
 
 router.post('/addAlarm',AlarmaController.Store);
@@ -33,4 +34,6 @@ router.post('/updataEmergency/:id', EmergencyController.Update);
 router.post('/tone/:num', FunctionController.tone);
 router.post('/silence', FunctionController.tone);
 router.post('/alarm', FunctionController.alarm);
+
+router.post('/validateSingUp', AuthController.validateSingUp);
 export default router;

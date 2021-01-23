@@ -3,7 +3,7 @@ import { Schema, model} from 'mongoose';
 const EquipmmentSchema = new Schema({
     ip:{type:String, unique:true, required:true},
     id_MCU:{type:String, unique:true , required:true},
-    name: {type: String, required: true , default: null},
+    name: {type: String, required: false , default: null},
     numEquipment: {type:Number, required:true},
     latCenter: {type:String, default:null},
     lngCenter: {type:String, default:null},

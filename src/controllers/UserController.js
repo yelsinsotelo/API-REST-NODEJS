@@ -1,5 +1,5 @@
 
-import Users from '../models/Users';
+import Users from '../models/migrations/Users';
 
 class UsersController {
     static Index(req, res) {
@@ -18,13 +18,14 @@ class UsersController {
             ));
     }
     static Store(req, res) {
-        const { equipment, user_address, user_cellphone, user_control_id, user_name } = req.body;
+        const { equipment, user_address, user_cellphone, user_control_id, user_name , user_email} = req.body;
         const newUSer = new Users({
             name: user_name,
             address: user_address,
             cellphone: user_cellphone,
             idControl: user_control_id,
             idEquipment: equipment,
+            email:user_email,
         });
 
         newUSer.save().then(result => {
@@ -71,6 +72,7 @@ class UsersController {
                 result.cellphone = req.body.user_cellphone;
                 result.idControl = req.body.user_control_id;
                 result.idEquipment = req.body.equipment;
+                result.email = req.body.user_email;
                 result.save().then(
                     result => {
                         res.json({

@@ -1,7 +1,8 @@
 
-import Equipment from '../models/Equipment';
+import Equipment from '../models/migrations/Equipment';
 import QRlogo from 'qr-with-logo';
 import path from 'path';
+import fs from 'fs';
 import {BASEURL} from '../config/constants'
 const BASEDIR = path.join(__dirname, '../images/');
 const BASEDIR3 = path.join(__dirname, '../images/team/');
@@ -35,9 +36,12 @@ class AlarmaController {
         const data = JSON.stringify({
             id_MCU: equipment_id,
         });
+        const path = BASEDIR2 + equipment_id + '.png';
+        fs.unlink(path,(err) => console.log(err));
         QRlogo.generateQRWithLogo(data, BASEDIR + 'recorteu.png', {}, "PNG", BASEDIR2 + equipment_id + '.png').then(result =>
             console.log("completo")).catch(e => console.log(e));
         const urlcode = `${BASEURL}/QrCode/` + equipment_id + '.png';
+        
         const newAlarma = new Equipment({
             ip: equipment_ip,
             id_MCU: equipment_id,
@@ -72,6 +76,29 @@ class AlarmaController {
 
 
     }
+
+    static InternalStore(req) {
+        const { ip, id_MCU, index } = req;
+        const data = JSON.stringify({
+            id_MCU: id_MCU,
+        });
+        const path = BASEDIR2 + id_MCU + '.png';
+        fs.unlink(path,(err) => console.log(err));
+        QRlogo.generateQRWithLogo(data, BASEDIR + 'recorteu.png', {}, "PNG", BASEDIR2 + id_MCU + '.png').then(result =>
+            console.log("completo")).catch(e => console.log(e));
+        const urlcode = `${BASEURL}/QrCode/` + id_MCU + '.png';
+        const newAlarma = new Equipment({
+            ip: ip,
+            id_MCU: id_MCU,
+            name: ip,
+            numEquipment: index,
+            urlqr: urlcode,
+        });
+        newAlarma.save().then(result => { console.log(result)}).catch(e => {console.log(e)});
+
+
+    }
+
     static Edit(req, res) {
         Equipment.findById(req.params.id).exec().then(result => {
             result.ip = req.body.equipment_ip,

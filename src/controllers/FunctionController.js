@@ -1,7 +1,7 @@
 import appmqtt from '../AppMqtt';
-import Users from '../models/Users';
-import Equipment from '../models/Equipment'
-import Emergency from '../models/Emergency'
+import Users from '../models/migrations/Users';
+import Equipment from '../models/migrations/Equipment'
+import Emergency from '../models/migrations/Emergency'
 import io from '../index'
 class FunctioController {
     static tone(req, res, next) {

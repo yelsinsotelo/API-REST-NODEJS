@@ -1,5 +1,5 @@
-import Equipment from '../models/Equipment'
-import Group from '../models/Group'
+import Equipment from '../models/migrations/Equipment'
+import Group from '../models/migrations/Group'
 
 class GroupController {
     static Index(req, res) {

@@ -5,9 +5,9 @@ import base64url from 'base64url';
 import ip from 'ip';
 import http from 'http'
 import socketIo from 'socket.io';
-import Users from './models/Users';
-import Equipment from './models/Equipment';
-import Emergency from './models/Emergency';
+import Users from './models/migrations/Users';
+import Equipment from './models/migrations/Equipment';
+import Emergency from './models/migrations/Emergency';
 const server = app.listen(4080);
 const io = socketIo(server);
 
@@ -19,7 +19,6 @@ appmqtt.on('connect', function () {
 
 appmqtt.subscribe('Panel/#');
 io.on("connection", (socket) => {
-    // appmqtt.publish('Panel/PwAXABJRODQ4OTQx/BUTTON','{"ip":"wKgBUQ","id":"443831", "bp":"0"}');
     appmqtt.on('message', function (topic, message) {
         console.log(message.toString())
         const url = topic.toString();
@@ -56,7 +55,6 @@ io.on("connection", (socket) => {
                 break;
             case "BUTTON":
                 data = JSON.parse(message);
-                //console.log(data)
                 response = Users.findOne({ idEquipment: id }).exec().then(
                     result => {
                         let responsex = [];
@@ -73,8 +71,9 @@ io.on("connection", (socket) => {
                                     if (data.bp == 8) {
                                         appmqtt.publish(`Panel/${id}/PGM1`, '0');
                                         appmqtt.publish(`Panel/${id}/PGM3`, '0');
-                                        appmqtt.publish(`Panel/${id}/PGM2`, '1'); 
-                                    } else if(data.bp == 1){
+                                        appmqtt.publish(`Panel/${id}/PGM2`, '1');
+                                    } else if (data.bp == 1) {
+
                                         socket.emit("FromAPI", responsex);
                                         appmqtt.publish(`Panel/${id}/AUDIO`, '{"fn":"tono2.wav"}');
                                         appmqtt.publish(`Panel/${id}/PGM3`, '0');
@@ -90,19 +89,17 @@ io.on("connection", (socket) => {
                                             console.log(result)
                                         }
                                         ).catch(error => { console.log(error) })
-                                    }else if(data.bp == 2){
+                                    } else if (data.bp == 2) {
                                         appmqtt.publish(`Panel/${id}/AUDIO`, '{"fn":"tono3.wav"}');
                                         appmqtt.publish(`Panel/${id}/PGM3`, '0');
                                         appmqtt.publish(`Panel/${id}/PGM2`, '0');
                                         appmqtt.publish(`Panel/${id}/PGM1`, '1');
-                                    }else if(data.bp == 4){
+                                    } else if (data.bp == 4) {
                                         appmqtt.publish(`Panel/${id}/AUDIO`, '{"tmo":0}');
                                         appmqtt.publish(`Panel/${id}/PGM3`, '0');
                                         appmqtt.publish(`Panel/${id}/PGM2`, '0');
                                         appmqtt.publish(`Panel/${id}/PGM1`, '0');
                                     }
-                                    
-                                   
                                 }
                             ).catch(
                                 e => console.log("erro2")
@@ -113,8 +110,6 @@ io.on("connection", (socket) => {
                                 emergency: false,
                             }
                         }
-
-
                     }
                 ).catch(
                     error => {
